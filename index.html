@@ -1,0 +1,89 @@
+<!doctypehtml>
+    <meta charset=UTF-8>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Times New Roman', Times, serif
+        }
+
+        #countdown,
+        h1 {
+            margin: .5em;
+            text-align: center
+        }
+
+        h1 {
+            font-size: 3vh
+        }
+
+        #countdown {
+            font-size: 2vh
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 90%;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            font-size: 2vh
+        }
+    </style>
+    <h1>До дємбєля</h1>
+    <div id=countdown></div>
+    <div class=footer>Зроблено Неросликом Максимом найкращої групи ПП-263</div>
+    <script>const targetDate = new Date(2025, 7, 1, 0, 0, 0);
+
+        function updateCountdown() {
+            const now = new Date();
+            let diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById("countdown").innerText = "Час вийшов!";
+                clearInterval(interval);
+                return;
+            }
+
+            const msInSecond = 1000;
+            const msInMinute = msInSecond * 60;
+            const msInHour = msInMinute * 60;
+            const msInDay = msInHour * 24;
+            const msInWeek = msInDay * 7;
+            const msInMonth = msInDay * 30.44; // середня тривалість місяця
+
+            const months = Math.floor(diff / msInMonth);
+            diff -= months * msInMonth;
+
+            const weeks = Math.floor(diff / msInWeek);
+            diff -= weeks * msInWeek;
+
+            const days = Math.floor(diff / msInDay);
+            diff -= days * msInDay;
+
+            const hours = Math.floor(diff / msInHour);
+            diff -= hours * msInHour;
+
+            const minutes = Math.floor(diff / msInMinute);
+            diff -= minutes * msInMinute;
+
+            const seconds = Math.floor(diff / msInSecond);
+
+            const parts = [];
+            if (months) parts.push(`${months} міс`);
+            if (weeks) parts.push(`${weeks} тиж`);
+            if (days) parts.push(`${days} дн`);
+            if (hours) parts.push(`${hours} год`);
+            if (minutes) parts.push(`${minutes} хв`);
+            if (seconds || parts.length === 0) parts.push(`${seconds} сек`);
+
+            document.getElementById("countdown").innerText = parts.join(' ');
+        }
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();</script>
