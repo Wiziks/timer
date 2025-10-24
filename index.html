@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Таймер</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: #0f1724;
+            color: #e6eef6;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 4rem;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="title">Завантаження...</h1>
+        <div id="timer" class="timer">--:--:--:--</div>
+    </div>
+
+    <script>
+        var title = "До зустрічі";
+        var targetDate = "2025-12-26T00:00:00Z";
+
+        function initTimer() {
+            const titleEl = document.getElementById('title');
+            const timerEl = document.getElementById('timer');
+            titleEl.textContent = title || 'Без назви';
+
+            const target = new Date(targetDate);
+            if (isNaN(target)) {
+                timerEl.textContent = 'Невірна дата у config.json';
+                return;
+            }
+
+            function update() {
+                const now = new Date();
+                let diff = target - now;
+                if (diff < 0) diff = 0;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                timerEl.textContent = `${days}д ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            }
+
+            function pad(n) {
+                return n.toString().padStart(2, '0');
+            }
+
+            update();
+            setInterval(update, 1000);
+        }
+
+        initTimer();
+    </script>
+</body>
+
+</html>
