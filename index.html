@@ -34,6 +34,19 @@
             font-weight: bold;
             font-variant-numeric: tabular-nums;
         }
+
+#bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.4);
+    color: #9ca3af;
+    font-size: 14px;
+    backdrop-filter: blur(6px);
+  }
     </style>
 </head>
 
@@ -42,6 +55,9 @@
         <h1 id="title">Завантаження...</h1>
         <div id="timer" class="timer">--:--:--:--</div>
     </div>
+<div id="bottom-bar">
+  © 2025 Ванка — врєдіна
+</div>
 
     <script>
         var title = "До зустрічі";
