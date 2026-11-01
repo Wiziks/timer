@@ -2,101 +2,438 @@
 <html lang="uk">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Таймер</title>
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            background: #0f1724;
-            color: #e6eef6;
-            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101110">
+  <title>До фінішу</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101110;
+      --panel: #171917;
+      --text: #f1f2ec;
+      --muted: #858981;
+      --line: #2a2d29;
+      --accent: #c8fa78;
+    }
 
-        .container {
-            max-width: 800px;
-            padding: 40px;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
 
-        .timer {
-            font-size: 4rem;
-            font-weight: bold;
-            font-variant-numeric: tabular-nums;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(ellipse at 50% 15%, #1b2018 0%, var(--bg) 54%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
 
-#bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    background: rgba(0, 0, 0, 0.4);
-    color: #9ca3af;
-    font-size: 14px;
-    backdrop-filter: blur(6px);
-  }
-    </style>
+    main {
+      width: min(100%, 780px);
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 52px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px #c8fa7866;
+    }
+
+    .status {
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      padding: 8px 12px;
+      letter-spacing: .1em;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 5vw, 42px);
+      line-height: 1.1;
+      font-weight: 500;
+      letter-spacing: -.055em;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 24px;
+      padding: clamp(26px, 6vw, 48px);
+      border: 1px solid #343a30;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #1b2018, #151715 62%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -110px;
+      top: -130px;
+      border-radius: 50%;
+      border: 1px solid #c8fa781c;
+      box-shadow: 0 0 0 28px #c8fa7806, 0 0 0 58px #c8fa7804;
+      pointer-events: none;
+    }
+
+    .shift-count {
+      display: flex;
+      align-items: baseline;
+      gap: 13px;
+      margin: 18px 0 10px;
+    }
+
+    .number {
+      color: var(--accent);
+      font-size: clamp(76px, 17vw, 150px);
+      font-weight: 500;
+      letter-spacing: -.09em;
+      line-height: .95;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .number-label {
+      color: #b4b9ad;
+      font-size: clamp(15px, 2vw, 20px);
+    }
+
+    .hero-note {
+      margin: 18px 0 0;
+      color: #a7aca1;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .hero-note strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .progress-wrap {
+      margin-top: 34px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .track {
+      height: 3px;
+      background: #30352c;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      transition: width .5s ease;
+    }
+
+    .secondary {
+      margin-top: 22px;
+      padding: 25px clamp(22px, 5vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #141614;
+    }
+
+    .secondary-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .secondary-head h2 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: #c4c8bf;
+    }
+
+    .secondary-head span {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .unit {
+      min-width: 0;
+    }
+
+    .unit-number {
+      display: block;
+      font-size: clamp(22px, 4.2vw, 34px);
+      letter-spacing: -.06em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit-label {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 28px;
+      color: #62675f;
+      font-size: 11px;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 20px;
+      }
+
+      .topline {
+        margin-bottom: 38px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 22px;
+      }
+
+      .hero {
+        border-radius: 20px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 7px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fill {
+        transition: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1 id="title">Завантаження...</h1>
-        <div id="timer" class="timer">--:--:--:--</div>
+  <main>
+    <div class="topline">
+      <div class="brand"><span class="dot"></span><span>Особистий відлік</span></div>
+      <div class="status" id="status">Завантаження…</div>
     </div>
-<div id="bottom-bar">
-  © 2025 Ванка — врєдіна
-</div>
 
-    <script>
-        var title = "До зустрічі";
-        var targetDate = "2025-12-23T00:00:00Z";
+    <p class="eyebrow">Головний відлік</p>
+    <h1>Крок за кроком — до фінішу.</h1>
 
-        function initTimer() {
-            const titleEl = document.getElementById('title');
-            const timerEl = document.getElementById('timer');
-            titleEl.textContent = title || 'Без назви';
+    <section class="hero" aria-live="polite">
+      <p class="eyebrow" id="mainLabel">Залишилось змін</p>
+      <div class="shift-count">
+        <span class="number" id="shiftCount">—</span>
+        <span class="number-label" id="shiftWord">змін</span>
+      </div>
+      <p class="hero-note" id="mainNote">Рахуємо час до кінцевої дати.</p>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span id="progressLabel">Загальний прогрес</span><span id="progressPct">0%</span>
+        </div>
+        <div class="track">
+          <div class="fill" id="progressFill"></div>
+        </div>
+      </div>
+    </section>
 
-            const target = new Date(targetDate);
-            if (isNaN(target)) {
-                timerEl.textContent = 'Невірна дата у config.json';
-                return;
-            }
+    <section class="secondary" aria-label="Відлік до кінцевої дати">
+      <div class="secondary-head">
+        <h2>До кінцевої дати</h2>
+        <span>19.04.2027</span>
+      </div>
+      <div class="countdown">
+        <div class="unit"><span class="unit-number" id="months">00</span><span class="unit-label">Місяців</span></div>
+        <div class="unit"><span class="unit-number" id="weeks">00</span><span class="unit-label">Тижнів</span></div>
+        <div class="unit"><span class="unit-number" id="days">00</span><span class="unit-label">Днів</span></div>
+        <div class="unit"><span class="unit-number" id="hours">00</span><span class="unit-label">Годин</span></div>
+        <div class="unit"><span class="unit-number" id="minutes">00</span><span class="unit-label">Хвилин</span></div>
+        <div class="unit"><span class="unit-number" id="seconds">00</span><span class="unit-label">Секунд</span></div>
+      </div>
+    </section>
 
-            function update() {
-                const now = new Date();
-                let diff = target - now;
-                if (diff < 0) diff = 0;
+    <footer><span>Період: 14 днів зміни / 14 днів вихідні</span><span id="dateLine">—</span></footer>
+  </main>
+  <script>
+    (() => {
+      // Усі дати — за місцевим часом пристрою. Зміна починається 8 листопада 2026 включно.
+      const SHIFT_START = new Date(2026, 10, 8, 0, 0, 0);
+      const DEADLINE = new Date(2027, 3, 19, 0, 0, 0);
+      const CYCLE_DAYS = 28;
+      const WORK_DAYS = 14;
+      const DAY = 86400000;
 
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                const seconds = Math.floor((diff / 1000) % 60);
+      const $ = id => document.getElementById(id);
+      const plural = (n, one, few, many) => {
+        const x = Math.abs(n) % 100, y = x % 10;
+        if (x > 10 && x < 20) return many;
+        if (y > 1 && y < 5) return few;
+        if (y === 1) return one;
+        return many;
+      };
+      const pad = n => String(n).padStart(2, '0');
+      const startOfDay = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      const dateFmt = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
 
-                timerEl.textContent = `${days}д ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-            }
+      function update() {
+        const now = new Date();
+        const today = startOfDay(now);
+        const untilEnd = DEADLINE - now;
 
-            function pad(n) {
-                return n.toString().padStart(2, '0');
-            }
+        $('dateLine').textContent = dateFmt.format(now);
 
-            update();
-            setInterval(update, 1000);
+        if (now < SHIFT_START) {
+          const daysUntilShift = Math.ceil((SHIFT_START - today) / DAY);
+          $('status').textContent = 'Вихідні';
+          let upcoming = 0;
+          for (let d = new Date(SHIFT_START); d < DEADLINE; d.setDate(d.getDate() + CYCLE_DAYS)) upcoming++;
+          $('mainLabel').textContent = 'Змін до фінішу';
+          $('shiftCount').textContent = String(upcoming);
+          $('shiftWord').textContent = plural(upcoming, 'зміна', 'зміни', 'змін');
+          $('mainNote').innerHTML = `До старту графіка — <strong>${daysUntilShift} ${plural(daysUntilShift, 'день', 'дні', 'днів')}</strong>. Перша зміна починається 8 листопада.`;
+          $('progressLabel').textContent = 'Очікування старту';
+          $('progressPct').textContent = '0%';
+          $('progressFill').style.width = '0%';
+        } else if (untilEnd <= 0) {
+          $('status').textContent = 'Фініш';
+          $('mainLabel').textContent = 'Графік завершено';
+          $('shiftCount').textContent = '0';
+          $('shiftWord').textContent = 'змін попереду';
+          $('mainNote').innerHTML = '<strong>19 квітня 2027 року</strong> — кінцева дата досягнута.';
+          $('progressLabel').textContent = 'Загальний прогрес';
+          $('progressPct').textContent = '100%';
+          $('progressFill').style.width = '100%';
+        } else {
+          const elapsedDays = Math.floor((today - SHIFT_START) / DAY);
+          const cycleDay = elapsedDays % CYCLE_DAYS;
+          const isWorking = cycleDay < WORK_DAYS;
+          // Кількість змін, що ще почнуться до кінцевої дати (не рахуємо поточну зміну вдруге).
+          let shiftsLeft = 0;
+          for (let d = today; d < DEADLINE; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
+            const delta = Math.floor((d - SHIFT_START) / DAY);
+            if (delta >= 0 && delta % CYCLE_DAYS === 0) shiftsLeft++;
+          }
+          $('status').textContent = isWorking ? 'Зараз на зміні' : 'Зараз вихідні';
+          $('mainLabel').textContent = 'Змін попереду';
+          $('shiftCount').textContent = String(shiftsLeft);
+          $('shiftWord').textContent = plural(shiftsLeft, 'зміна', 'зміни', 'змін');
+          const phaseDay = isWorking ? cycleDay + 1 : cycleDay - WORK_DAYS + 1;
+          const phaseLength = WORK_DAYS;
+          const phaseRemaining = phaseLength - phaseDay;
+          $('mainNote').innerHTML = isWorking
+            ? `Зараз <strong>зміна</strong>. День ${phaseDay} із 14 — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до вихідних.`
+            : `Зараз <strong>вихідні</strong>. День ${phaseDay} із 14 — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до зміни.`;
+          const total = DEADLINE - SHIFT_START;
+          const progress = Math.min(100, Math.max(0, ((now - SHIFT_START) / total) * 100));
+          $('progressLabel').textContent = 'Шлях до фінішу';
+          $('progressPct').textContent = `${Math.floor(progress)}%`;
+          $('progressFill').style.width = `${progress}%`;
         }
 
-        initTimer();
-    </script>
+        let remaining = Math.max(0, untilEnd);
+        const totalSeconds = Math.floor(remaining / 1000);
+        const monthsStart = new Date(now);
+        monthsStart.setHours(0, 0, 0, 0);
+        let wholeMonths = 0;
+        const cursor = new Date(monthsStart);
+        while (true) {
+          const next = new Date(cursor);
+          next.setMonth(next.getMonth() + 1);
+          if (next <= DEADLINE && next <= now) { cursor.setTime(next.getTime()); wholeMonths++; }
+          else break;
+        }
+        // Для зрозумілого календарного відліку: повні місяці, потім повні тижні,
+        // дні та час, що залишився. Усі блоки показані одночасно.
+        let monthCursor = new Date(now);
+        monthCursor.setHours(0, 0, 0, 0);
+        let months = 0;
+        while (months < 24) {
+          const next = new Date(monthCursor);
+          next.setMonth(next.getMonth() + 1);
+          if (next <= DEADLINE) { monthCursor = next; months++; }
+          else break;
+        }
+        const remMs = Math.max(0, DEADLINE - now);
+        const sec = Math.floor(remMs / 1000);
+        let totalDays = Math.floor(sec / 86400);
+        const monthsCount = Math.floor(totalDays / 30.4375);
+        totalDays -= monthsCount * 30.4375;
+        const weeks = Math.floor(totalDays / 7);
+        totalDays -= weeks * 7;
+        $('months').textContent = pad(monthsCount);
+        $('weeks').textContent = pad(weeks);
+        $('days').textContent = pad(Math.floor(totalDays));
+        $('hours').textContent = pad(Math.floor(sec / 3600) % 24);
+        $('minutes').textContent = pad(Math.floor(sec / 60) % 60);
+        $('seconds').textContent = pad(sec % 60);
+      }
+
+      update();
+      setInterval(update, 1000);
+    })();
+  </script>
 </body>
 
 </html>
