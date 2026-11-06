@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101110">
-  <title>До фінішу</title>
+  <title>Timer</title>
   <style>
     :root {
       color-scheme: dark;
@@ -281,7 +281,7 @@
     </div>
 
     <p class="eyebrow">Головний відлік</p>
-    <h1>Крок за кроком — до фінішу.</h1>
+    <h1>Per aspera ad astra</h1>
 
     <section class="hero" aria-live="polite">
       <p class="eyebrow" id="mainLabel">Залишилось змін</p>
@@ -319,7 +319,7 @@
   <script>
     (() => {
       // Усі дати — за місцевим часом пристрою. Зміна починається 8 листопада 2026 включно.
-      const SHIFT_START = new Date(2026, 9, 19, 0, 0, 0);
+      const SHIFT_START = new Date(2026, 9, 22, 0, 0, 0);
       const DEADLINE = new Date(2027, 3, 19, 0, 0, 0);
       const CYCLE_DAYS = 6;
       const WORK_DAYS = 3;
@@ -353,7 +353,7 @@
           $('mainLabel').textContent = 'Змін до фінішу';
           $('shiftCount').textContent = String(upcoming);
           $('shiftWord').textContent = plural(upcoming, 'зміна', 'зміни', 'змін');
-          $('mainNote').innerHTML = `До старту графіка — <strong>${daysUntilShift} ${plural(daysUntilShift, 'день', 'дні', 'днів')}</strong>. Перша зміна починається 8 листопада.`;
+          $('mainNote').innerHTML = `До старту графіка — <strong>${daysUntilShift} ${plural(daysUntilShift, 'день', 'дні', 'днів')}</strong>. Перша зміна починається ${dateFmt.format(SHIFT_START)}`;
           $('progressLabel').textContent = 'Очікування старту';
           $('progressPct').textContent = '0%';
           $('progressFill').style.width = '0%';
@@ -362,7 +362,7 @@
           $('mainLabel').textContent = 'Графік завершено';
           $('shiftCount').textContent = '0';
           $('shiftWord').textContent = 'змін попереду';
-          $('mainNote').innerHTML = '<strong>19 квітня 2027 року</strong> — кінцева дата досягнута.';
+          $('mainNote').innerHTML = `<strong>${dateFmt.format(DEADLINE)}</strong> — кінцева дата досягнута.`;
           $('progressLabel').textContent = 'Загальний прогрес';
           $('progressPct').textContent = '100%';
           $('progressFill').style.width = '100%';
@@ -384,8 +384,8 @@
           const phaseLength = WORK_DAYS;
           const phaseRemaining = phaseLength - phaseDay;
           $('mainNote').innerHTML = isWorking
-            ? `Зараз <strong>зміна</strong>. День ${phaseDay} із 14 — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до вихідних.`
-            : `Зараз <strong>вихідні</strong>. День ${phaseDay} із 14 — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до зміни.`;
+            ? `Зараз <strong>зміна</strong>. День ${phaseDay} із ${WORK_DAYS} — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до вихідних.`
+            : `Зараз <strong>вихідні</strong>. День ${phaseDay} із ${CYCLE_DAYS - WORK_DAYS} — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до зміни.`;
           const total = DEADLINE - SHIFT_START;
           const progress = Math.min(100, Math.max(0, ((now - SHIFT_START) / total) * 100));
           $('progressLabel').textContent = 'Шлях до фінішу';
