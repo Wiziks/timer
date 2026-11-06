@@ -314,15 +314,15 @@
       </div>
     </section>
 
-    <footer><span>Період: 14 днів зміни / 14 днів вихідні</span><span id="dateLine">—</span></footer>
+    <footer><span id="periodInfo">Період: 3 дні зміни / 3 дні вихідні</span><span id="dateLine">—</span></footer>
   </main>
   <script>
     (() => {
       // Усі дати — за місцевим часом пристрою. Зміна починається 8 листопада 2026 включно.
-      const SHIFT_START = new Date(2026, 10, 8, 0, 0, 0);
+      const SHIFT_START = new Date(2026, 9, 19, 0, 0, 0);
       const DEADLINE = new Date(2027, 3, 19, 0, 0, 0);
-      const CYCLE_DAYS = 28;
-      const WORK_DAYS = 14;
+      const CYCLE_DAYS = 6;
+      const WORK_DAYS = 3;
       const DAY = 86400000;
 
       const $ = id => document.getElementById(id);
@@ -343,6 +343,7 @@
         const untilEnd = DEADLINE - now;
 
         $('dateLine').textContent = dateFmt.format(now);
+        $('periodInfo').textContent = "Період: " + WORK_DAYS + " дні зміни / " + (CYCLE_DAYS - WORK_DAYS) + " дні вихідні";
 
         if (now < SHIFT_START) {
           const daysUntilShift = Math.ceil((SHIFT_START - today) / DAY);
