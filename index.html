@@ -265,6 +265,317 @@
       }
     }
 
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .calendar-trigger,
+    .month-nav,
+    .calendar-close {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: #171a16;
+      cursor: pointer;
+      font: inherit;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .calendar-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 99px;
+      padding: 9px 13px;
+      color: #dce2d4;
+      font-size: 11px;
+      letter-spacing: .06em;
+    }
+
+    .calendar-trigger:hover,
+    .month-nav:hover,
+    .calendar-close:hover {
+      border-color: #71864d;
+      background: #20251c;
+    }
+
+    .calendar-trigger span {
+      color: var(--accent);
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .calendar-dialog {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .22s ease, visibility .22s ease;
+    }
+
+    .calendar-dialog.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .calendar-backdrop {
+      position: absolute;
+      inset: 0;
+      background: #050605c9;
+      backdrop-filter: blur(7px);
+    }
+
+    .calendar-panel {
+      position: relative;
+      width: min(100%, 490px);
+      max-height: min(90vh, 760px);
+      overflow: auto;
+      padding: 27px;
+      border: 1px solid #343a30;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #1b2018, #141614 68%);
+      box-shadow: 0 24px 90px #0009;
+      transform: translateY(12px) scale(.985);
+      transition: transform .22s ease;
+    }
+
+    .calendar-dialog.is-open .calendar-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .calendar-heading,
+    .calendar-monthbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .calendar-heading {
+      margin-bottom: 25px;
+    }
+
+    .calendar-heading .eyebrow {
+      margin-bottom: 8px;
+    }
+
+    .calendar-heading h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -.045em;
+    }
+
+    .calendar-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #aeb5a6;
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .calendar-monthbar {
+      margin-bottom: 18px;
+    }
+
+    .calendar-monthbar strong {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+
+    .month-nav {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--accent);
+      font-size: 23px;
+      line-height: 1;
+    }
+
+    .month-nav:disabled {
+      opacity: .25;
+      cursor: default;
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .calendar-weekdays {
+      margin-bottom: 8px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .calendar-grid {
+      grid-auto-rows: 48px;
+    }
+
+    .calendar-day {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-width: 0;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: #20231e;
+      color: #dce0d6;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calendar-day .day-mark {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .calendar-day.workday {
+      border-color: #596b3d;
+      background: #28321f;
+      color: #d9f4b1;
+    }
+
+    .calendar-day.workday .day-mark {
+      background: var(--accent);
+    }
+
+    .calendar-day.offday {
+      background: #20231e;
+      color: #aeb5a6;
+    }
+
+    .calendar-day.offday .day-mark {
+      background: #626b5b;
+    }
+
+    .calendar-day.today {
+      outline: 1px solid #f1f2ec;
+      outline-offset: 2px;
+    }
+
+    .calendar-day.selected {
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .calendar-day.finish {
+      border-color: #b9a36a;
+      background: #332d1e;
+      color: #f2d99a;
+    }
+
+    .calendar-day.finish .day-mark {
+      background: #e5c879;
+    }
+
+    .calendar-day.outside {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .calendar-day:disabled {
+      cursor: default;
+      opacity: .3;
+    }
+
+    .calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin-top: 21px;
+      color: #aeb5a6;
+      font-size: 11px;
+    }
+
+    .calendar-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #626b5b;
+    }
+
+    .legend-dot.work {
+      background: var(--accent);
+    }
+
+    .legend-dot.finish {
+      background: #e5c879;
+    }
+
+    .calendar-footnote {
+      margin: 18px 0 0;
+      color: #777e70;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .calendar-selection {
+      margin: 12px 0 0;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: #dce2d4;
+      background: #111310;
+      font-size: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .top-actions {
+        gap: 7px;
+      }
+
+      .calendar-trigger {
+        padding: 8px 10px;
+        font-size: 10px;
+      }
+
+      .calendar-panel {
+        padding: 21px 17px;
+        border-radius: 19px;
+      }
+
+      .calendar-grid {
+        grid-auto-rows: 42px;
+        gap: 5px;
+      }
+
+      .calendar-day {
+        border-radius: 9px;
+      }
+
+      .calendar-legend {
+        gap: 12px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .fill {
         transition: none;
@@ -277,7 +588,13 @@
   <main>
     <div class="topline">
       <div class="brand"><span class="dot"></span><span>Особистий відлік</span></div>
-      <div class="status" id="status">Завантаження…</div>
+      <div class="top-actions">
+        <div class="status" id="status">Завантаження…</div>
+        <button class="calendar-trigger" id="openCalendar" type="button" aria-haspopup="dialog"
+          aria-controls="calendarDialog">
+          <span aria-hidden="true">▦</span> Календар
+        </button>
+      </div>
     </div>
 
     <p class="eyebrow">Головний відлік</p>
@@ -314,18 +631,50 @@
       </div>
     </section>
 
+    <section class="calendar-dialog" id="calendarDialog" role="dialog" aria-modal="true" aria-labelledby="calendarTitle"
+      aria-hidden="true">
+      <div class="calendar-backdrop" id="calendarBackdrop"></div>
+      <div class="calendar-panel">
+        <div class="calendar-heading">
+          <div>
+            <p class="eyebrow">Графік 3 / 3</p>
+            <h2 id="calendarTitle">Календар змін</h2>
+          </div>
+          <button class="calendar-close" id="closeCalendar" type="button" aria-label="Закрити календар">×</button>
+        </div>
+        <div class="calendar-monthbar">
+          <button class="month-nav" id="prevMonth" type="button" aria-label="Попередній місяць">‹</button>
+          <strong id="calendarMonth">Жовтень 2026</strong>
+          <button class="month-nav" id="nextMonth" type="button" aria-label="Наступний місяць">›</button>
+        </div>
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid" aria-label="Дні місяця"></div>
+        <div class="calendar-legend">
+          <span><i class="legend-dot work"></i> Зміна</span>
+          <span><i class="legend-dot off"></i> Вихідний</span>
+          <span><i class="legend-dot finish"></i> Фініш</span>
+        </div>
+        <p class="calendar-footnote">Графік починається 22 жовтня 2026 року. Натисни на день, щоб побачити його статус.
+        </p>
+        <p class="calendar-selection" id="calendarSelection" aria-live="polite">Обери день у календарі</p>
+      </div>
+    </section>
+
     <footer><span id="periodInfo">Період: 3 дні зміни / 3 дні вихідні</span><span id="dateLine">—</span></footer>
   </main>
   <script>
     (() => {
-      // Усі дати — за місцевим часом пристрою. Зміна починається 8 листопада 2026 включно.
+      // Усі дати — за місцевим часом пристрою.
+      // 22 жовтня 2026 — перший день циклу: 3 дні зміни / 3 дні вихідні.
       const SHIFT_START = new Date(2026, 9, 22, 0, 0, 0);
       const DEADLINE = new Date(2027, 3, 19, 0, 0, 0);
       const CYCLE_DAYS = 6;
       const WORK_DAYS = 3;
       const DAY = 86400000;
-
       const $ = id => document.getElementById(id);
+
       const plural = (n, one, few, many) => {
         const x = Math.abs(n) % 100, y = x % 10;
         if (x > 10 && x < 20) return many;
@@ -336,6 +685,13 @@
       const pad = n => String(n).padStart(2, '0');
       const startOfDay = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
       const dateFmt = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+      const monthFmt = new Intl.DateTimeFormat('uk-UA', { month: 'long', year: 'numeric' });
+
+      // UTC-ordinal arithmetic avoids DST changing the length of a calendar day.
+      const dayNumber = d => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / DAY);
+      const cycleIndex = d => ((dayNumber(d) - dayNumber(SHIFT_START)) % CYCLE_DAYS + CYCLE_DAYS) % CYCLE_DAYS;
+      const isInRange = d => startOfDay(d) >= SHIFT_START && startOfDay(d) < DEADLINE;
+      const isWorkday = d => isInRange(d) && cycleIndex(d) < WORK_DAYS;
 
       function update() {
         const now = new Date();
@@ -343,21 +699,9 @@
         const untilEnd = DEADLINE - now;
 
         $('dateLine').textContent = dateFmt.format(now);
-        $('periodInfo').textContent = "Період: " + WORK_DAYS + " дні зміни / " + (CYCLE_DAYS - WORK_DAYS) + " дні вихідні";
+        $('periodInfo').textContent = 'Період: 3 дні зміни / 3 дні вихідні';
 
-        if (now < SHIFT_START) {
-          const daysUntilShift = Math.ceil((SHIFT_START - today) / DAY);
-          $('status').textContent = 'Вихідні';
-          let upcoming = 0;
-          for (let d = new Date(SHIFT_START); d < DEADLINE; d.setDate(d.getDate() + CYCLE_DAYS)) upcoming++;
-          $('mainLabel').textContent = 'Змін до фінішу';
-          $('shiftCount').textContent = String(upcoming);
-          $('shiftWord').textContent = plural(upcoming, 'зміна', 'зміни', 'змін');
-          $('mainNote').innerHTML = `До старту графіка — <strong>${daysUntilShift} ${plural(daysUntilShift, 'день', 'дні', 'днів')}</strong>. Перша зміна починається ${dateFmt.format(SHIFT_START)}`;
-          $('progressLabel').textContent = 'Очікування старту';
-          $('progressPct').textContent = '0%';
-          $('progressFill').style.width = '0%';
-        } else if (untilEnd <= 0) {
+        if (untilEnd <= 0) {
           $('status').textContent = 'Фініш';
           $('mainLabel').textContent = 'Графік завершено';
           $('shiftCount').textContent = '0';
@@ -367,25 +711,25 @@
           $('progressPct').textContent = '100%';
           $('progressFill').style.width = '100%';
         } else {
-          const elapsedDays = Math.floor((today - SHIFT_START) / DAY);
-          const cycleDay = elapsedDays % CYCLE_DAYS;
-          const isWorking = cycleDay < WORK_DAYS;
-          // Кількість змін, що ще почнуться до кінцевої дати (не рахуємо поточну зміну вдруге).
+          const idx = cycleIndex(today);
+          const isWorking = idx < WORK_DAYS;
           let shiftsLeft = 0;
-          for (let d = today; d < DEADLINE; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
-            const delta = Math.floor((d - SHIFT_START) / DAY);
-            if (delta >= 0 && delta % CYCLE_DAYS === 0) shiftsLeft++;
+
+          for (let d = new Date(today); d < DEADLINE; d.setDate(d.getDate() + 1)) {
+            if (isInRange(d) && cycleIndex(d) === 0) shiftsLeft++;
           }
+
           $('status').textContent = isWorking ? 'Зараз на зміні' : 'Зараз вихідні';
           $('mainLabel').textContent = 'Змін попереду';
           $('shiftCount').textContent = String(shiftsLeft);
           $('shiftWord').textContent = plural(shiftsLeft, 'зміна', 'зміни', 'змін');
-          const phaseDay = isWorking ? cycleDay + 1 : cycleDay - WORK_DAYS + 1;
-          const phaseLength = WORK_DAYS;
-          const phaseRemaining = phaseLength - phaseDay;
+
+          const phaseDay = isWorking ? idx + 1 : idx - WORK_DAYS + 1;
+          const phaseRemaining = WORK_DAYS - phaseDay;
           $('mainNote').innerHTML = isWorking
-            ? `Зараз <strong>зміна</strong>. День ${phaseDay} із ${WORK_DAYS} — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до вихідних.`
-            : `Зараз <strong>вихідні</strong>. День ${phaseDay} із ${CYCLE_DAYS - WORK_DAYS} — ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до зміни.`;
+            ? `Зараз <strong>зміна</strong>. День ${phaseDay} із ${WORK_DAYS} — ${phaseRemaining ? `ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до вихідних.` : 'сьогодні останній день перед вихідними.'}`
+            : `Зараз <strong>вихідні</strong>. День ${phaseDay} із ${WORK_DAYS} — ${phaseRemaining ? `ще ${phaseRemaining} ${plural(phaseRemaining, 'день', 'дні', 'днів')} до зміни.` : 'сьогодні останній день вихідних.'}`;
+
           const total = DEADLINE - SHIFT_START;
           const progress = Math.min(100, Math.max(0, ((now - SHIFT_START) / total) * 100));
           $('progressLabel').textContent = 'Шлях до фінішу';
@@ -393,30 +737,7 @@
           $('progressFill').style.width = `${progress}%`;
         }
 
-        let remaining = Math.max(0, untilEnd);
-        const totalSeconds = Math.floor(remaining / 1000);
-        const monthsStart = new Date(now);
-        monthsStart.setHours(0, 0, 0, 0);
-        let wholeMonths = 0;
-        const cursor = new Date(monthsStart);
-        while (true) {
-          const next = new Date(cursor);
-          next.setMonth(next.getMonth() + 1);
-          if (next <= DEADLINE && next <= now) { cursor.setTime(next.getTime()); wholeMonths++; }
-          else break;
-        }
-        // Для зрозумілого календарного відліку: повні місяці, потім повні тижні,
-        // дні та час, що залишився. Усі блоки показані одночасно.
-        let monthCursor = new Date(now);
-        monthCursor.setHours(0, 0, 0, 0);
-        let months = 0;
-        while (months < 24) {
-          const next = new Date(monthCursor);
-          next.setMonth(next.getMonth() + 1);
-          if (next <= DEADLINE) { monthCursor = next; months++; }
-          else break;
-        }
-        const remMs = Math.max(0, DEADLINE - now);
+        const remMs = Math.max(0, untilEnd);
         const sec = Math.floor(remMs / 1000);
         let totalDays = Math.floor(sec / 86400);
         const monthsCount = Math.floor(totalDays / 30.4375);
@@ -430,6 +751,119 @@
         $('minutes').textContent = pad(Math.floor(sec / 60) % 60);
         $('seconds').textContent = pad(sec % 60);
       }
+
+      // Calendar popup
+      const dialog = $('calendarDialog');
+      const grid = $('calendarGrid');
+      let visibleMonth = new Date(2026, 9, 1);
+      let selectedDate = null;
+
+      const sameDate = (a, b) =>
+        a && b && a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+      function renderCalendar() {
+        $('calendarMonth').textContent = monthFmt.format(visibleMonth);
+        const first = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), 1);
+        const daysInMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 0).getDate();
+        const mondayOffset = (first.getDay() + 6) % 7;
+        const today = startOfDay(new Date());
+        const minMonth = new Date(2026, 9, 1);
+        const maxMonth = new Date(2027, 3, 1);
+
+        $('prevMonth').disabled = visibleMonth <= minMonth;
+        $('nextMonth').disabled = visibleMonth >= maxMonth;
+        grid.innerHTML = '';
+
+        for (let i = 0; i < mondayOffset; i++) {
+          const blank = document.createElement('span');
+          blank.className = 'calendar-day outside';
+          blank.setAttribute('aria-hidden', 'true');
+          grid.appendChild(blank);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), day);
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'calendar-day';
+          button.textContent = String(day);
+          button.setAttribute('aria-label', dateFmt.format(date));
+
+          if (sameDate(date, today)) button.classList.add('today');
+          if (sameDate(date, selectedDate)) button.classList.add('selected');
+
+          if (sameDate(date, DEADLINE)) {
+            button.classList.add('finish');
+            button.title = 'Фініш — 100%';
+            button.setAttribute('aria-label', `${dateFmt.format(date)} — фініш`);
+          } else if (isInRange(date)) {
+            const work = isWorkday(date);
+            button.classList.add(work ? 'workday' : 'offday');
+            button.title = work ? 'Зміна' : 'Вихідний';
+            button.setAttribute('aria-label', `${dateFmt.format(date)} — ${work ? 'зміна' : 'вихідний'}`);
+          } else {
+            button.disabled = true;
+            button.classList.add('offday');
+            button.style.opacity = '.22';
+          }
+
+          const mark = document.createElement('i');
+          mark.className = 'day-mark';
+          mark.setAttribute('aria-hidden', 'true');
+          button.appendChild(mark);
+
+          button.addEventListener('click', () => {
+            selectedDate = date;
+            const label = sameDate(date, DEADLINE)
+              ? 'Фініш — 100%'
+              : !isInRange(date) ? 'Поза періодом відліку'
+                : isWorkday(date) ? 'День зміни' : 'Вихідний';
+            $('calendarSelection').textContent = `${dateFmt.format(date)} · ${label}`;
+            renderCalendar();
+          });
+          grid.appendChild(button);
+        }
+      }
+
+      function openCalendar() {
+        visibleMonth = new Date(2026, 9, 1);
+        const now = new Date();
+        if (now >= SHIFT_START && now <= DEADLINE) {
+          visibleMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        }
+        selectedDate = startOfDay(now);
+        $('calendarSelection').textContent = isInRange(now)
+          ? `${dateFmt.format(now)} · ${isWorkday(now) ? 'День зміни' : 'Вихідний'}`
+          : 'Обери день у календарі';
+        renderCalendar();
+        dialog.classList.add('is-open');
+        dialog.setAttribute('aria-hidden', 'false');
+        $('closeCalendar').focus();
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCalendar() {
+        dialog.classList.remove('is-open');
+        dialog.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        $('openCalendar').focus();
+      }
+
+      $('openCalendar').addEventListener('click', openCalendar);
+      $('closeCalendar').addEventListener('click', closeCalendar);
+      $('calendarBackdrop').addEventListener('click', closeCalendar);
+      $('prevMonth').addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+        renderCalendar();
+      });
+      $('nextMonth').addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+        renderCalendar();
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && dialog.classList.contains('is-open')) closeCalendar();
+      });
 
       update();
       setInterval(update, 1000);
