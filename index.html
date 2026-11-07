@@ -68,13 +68,6 @@
       box-shadow: 0 0 16px #c8fa7866;
     }
 
-    .status {
-      border: 1px solid var(--line);
-      border-radius: 99px;
-      padding: 8px 12px;
-      letter-spacing: .1em;
-    }
-
     .eyebrow {
       margin: 0 0 14px;
       color: var(--muted);
@@ -589,7 +582,6 @@
     <div class="topline">
       <div class="brand"><span class="dot"></span><span>Особистий відлік</span></div>
       <div class="top-actions">
-        <div class="status" id="status">Завантаження…</div>
         <button class="calendar-trigger" id="openCalendar" type="button" aria-haspopup="dialog"
           aria-controls="calendarDialog">
           <span aria-hidden="true">▦</span> Календар
@@ -702,7 +694,6 @@
         $('periodInfo').textContent = 'Період: 3 дні зміни / 3 дні вихідні';
 
         if (untilEnd <= 0) {
-          $('status').textContent = 'Фініш';
           $('mainLabel').textContent = 'Графік завершено';
           $('shiftCount').textContent = '0';
           $('shiftWord').textContent = 'змін попереду';
@@ -719,7 +710,6 @@
             if (isInRange(d) && cycleIndex(d) === 0) shiftsLeft++;
           }
 
-          $('status').textContent = isWorking ? 'Зараз на зміні' : 'Зараз вихідні';
           $('mainLabel').textContent = 'Змін попереду';
           $('shiftCount').textContent = String(shiftsLeft);
           $('shiftWord').textContent = plural(shiftsLeft, 'зміна', 'зміни', 'змін');
